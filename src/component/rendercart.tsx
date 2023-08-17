@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiSolidCartAlt } from "react-icons/bi";
 import "../index.css";
 export default function Rendercart() {
@@ -12,7 +12,10 @@ export default function Rendercart() {
 
   const listCarts = localStorage.getItem("ListCart");
   const listCartLocal: Product[] = listCarts ? JSON.parse(listCarts) : [];
-  const [listCart, setListCart] = useState<Product[]>(listCartLocal);
+  const [listCart, setListCart] = useState<Product[]>([]);
+  useEffect(() => {
+    setListCart(listCartLocal);
+  }, [listCartLocal]);
 
   const minus = (id: number) => {
     const updatedListCart = listCart.map((product) => {
