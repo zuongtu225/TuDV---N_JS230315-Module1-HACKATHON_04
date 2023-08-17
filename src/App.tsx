@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
-import Product from "./component/products";
+import Todolist from "./component/Todolist";
 
 function App() {
   return (
     <div className="wrapper">
-      <Product />
+      <Todolist />
     </div>
   );
 }
