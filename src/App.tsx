@@ -3,13 +3,15 @@ import Products from "./component/products";
 import Rendercart from "./component/rendercart";
 
 function App() {
+  const [call, setCall] = React.useState<boolean>(true);
+
   return (
     <div className="wrapper">
       <div className="wrapper-left">
-        <Products />
+        <Products setCall={setCall} />
       </div>
       <div className="wrapper-right">
-        <Rendercart />
+        <Rendercart call={call} setCall={setCall} />
       </div>
     </div>
   );

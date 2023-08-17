@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import "../index.css";
-function Products() {
+
+interface IProps {
+  setCall: (call: boolean) => void;
+}
+
+function Products(props: IProps) {
+  const { setCall } = props;
   interface Product {
     id: number;
     name: string;
@@ -79,7 +85,7 @@ function Products() {
   const listCartLocal: Product[] = listCarts ? JSON.parse(listCarts) : [];
 
   const [listCart, setListCart] = useState<Product[]>(listCartLocal);
-  console.log(listCart);
+  console.log("list Cart Product", listCart);
   localStorage.setItem("ListCart", JSON.stringify(listCart));
 
   const addCart = (id: number) => {
@@ -100,6 +106,7 @@ function Products() {
         localStorage.setItem("ListCart", JSON.stringify(listCart));
       }
     }
+    setCall(true);
   };
   return (
     <>

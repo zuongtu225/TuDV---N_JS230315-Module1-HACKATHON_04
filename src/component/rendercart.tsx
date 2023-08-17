@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { BiSolidCartAlt } from "react-icons/bi";
 import "../index.css";
-export default function Rendercart() {
+
+interface IProps {
+  call: boolean;
+  setCall: (call: boolean) => void;
+}
+
+export default function Rendercart(props: IProps) {
+  const { call, setCall } = props;
   interface Product {
     id: number;
     name: string;
@@ -10,12 +17,20 @@ export default function Rendercart() {
     orderQty: number;
   }
 
-  const listCarts = localStorage.getItem("ListCart");
-  const listCartLocal: Product[] = listCarts ? JSON.parse(listCarts) : [];
   const [listCart, setListCart] = useState<Product[]>([]);
+  // const [call, setCall] = useState<boolean>(true);
   useEffect(() => {
-    setListCart(listCartLocal);
-  }, [listCartLocal]);
+    const updatedListCarts = localStorage.getItem("ListCart");
+    const updatedListCartLocal: Product[] = updatedListCarts
+      ? JSON.parse(updatedListCarts)
+      : [];
+
+    setListCart(updatedListCartLocal);
+
+    return () => {
+      setCall(false);
+    };
+  }, [call]);
 
   const minus = (id: number) => {
     const updatedListCart = listCart.map((product) => {
@@ -38,6 +53,7 @@ export default function Rendercart() {
     setListCart(updatedListCart);
     localStorage.setItem("ListCart", JSON.stringify(updatedListCart));
   };
+  console.log("list", listCart);
   return (
     <div className="render">
       <div className="title-top">
@@ -46,7 +62,7 @@ export default function Rendercart() {
       </div>
 
       <div className="listOrder">
-        {listCartLocal.map((item) => {
+        {listCart.map((item) => {
           return (
             <div className="order" key={item.id}>
               <img src={`${item.img}`} alt="" />
