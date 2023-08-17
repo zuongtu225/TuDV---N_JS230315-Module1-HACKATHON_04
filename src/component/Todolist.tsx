@@ -8,17 +8,10 @@ function Todolist() {
     status: boolean;
   }
 
-  const complete = (id: number) => {
-    const indexClick = listTodo.findIndex((todo) => todo.id === id);
-    if (indexClick !== -1) {
-      const updateStatus = [...listTodo];
-      updateStatus[indexClick].status = !updateStatus[indexClick].status;
-      setListTodo(updateStatus);
-    }
-  };
-
+  const list = localStorage.getItem("listTodo");
+  const listLocal: Todo[] = list ? JSON.parse(list) : [];
   const [toDo, setTodo] = useState<string>("");
-  const [listTodo, setListTodo] = useState<Todo[]>([]);
+  const [listTodo, setListTodo] = useState<Todo[]>(listLocal);
   const addToDo = () => {
     const newTodo = {
       id: listTodo.length == 0 ? 1 : listTodo.length + 1,
@@ -27,11 +20,22 @@ function Todolist() {
     };
     setListTodo([...listTodo, newTodo]);
     setTodo("");
+    localStorage.setItem("listTodo", JSON.stringify(listTodo));
   };
   const deleleToDo = (id: number) => {
     const listNew = listTodo.filter((todo) => todo.id !== id);
     setListTodo(listNew);
   };
+  const complete = (id: number) => {
+    const indexClick = listTodo.findIndex((todo) => todo.id === id);
+    if (indexClick !== -1) {
+      const updateStatus = [...listTodo];
+      updateStatus[indexClick].status = !updateStatus[indexClick].status;
+      setListTodo(updateStatus);
+    }
+    localStorage.setItem("listTodo", JSON.stringify(listTodo));
+  };
+  localStorage.setItem("listTodo", JSON.stringify(listTodo));
   return (
     <div className="wrapper">
       <header className=" container">
@@ -40,7 +44,7 @@ function Todolist() {
         <div className="hr"></div>
       </header>
       <main>
-        {listTodo.map((item) => {
+        {listLocal.map((item) => {
           return (
             <div className="wrapper-item  ">
               <div className="item container">
